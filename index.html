@@ -9,8 +9,65 @@
 	<meta property="og:type" content="website" />
 	<title>Прекратить дело «Сети»</title>
 	<link rel="stylesheet" type="text/css" href="./css/style.css" />
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"></script>
+	<script type="text/javascript">
+	   (function(){
+	      emailjs.init("user_Jk5L4pvZ5jzBxEWrU4mIi");
+	   })();
+	</script>
+
+	<script>
+		function sendEmail(name, job, contacts){
+			var template_params = {
+				   "name": name,
+				   "job": job,
+				   "contacts": contacts,
+			}
+
+				var template_id = "template_HrIZD3V7";
+				emailjs.send("stopdeloseti", template_id, template_params);
+		}
+		function openForm(){
+			document.getElementById("form").style.display="block"
+		}
+		function closeForm(){
+			document.getElementById("form").style.display="none"
+		}
+		function tryToSend(){
+			var emailName=document.getElementById("email_name").value;
+			var emailJob=document.getElementById("email_job").value;
+			var emailContacts=document.getElementById("email_contacts").value;
+		
+			//Check form
+			if(emailName.length>1 && emailName.length<128 && emailJob.length>1 && emailJob.length<512){
+				//If valid
+				if(sendEmail(emailName, emailJob, emailContacts)){
+					closeForm();
+					alert("Спасибо, ваша подпись успешно отправлена!");			
+				}
+			}else{
+				alert("Кажется, Имя или Должность заполнены как-то странно. Попробуйте проверить и отправить снова.");
+			}
+		}
+		
+	</script>
 </head>
 <body>
+	<div style="display:none" class="form_container" id="form">
+		<div class="form">
+			<h4>Подписать письмо</h4>
+			<label>Ваше имя и/или никнейм: </label><br>
+			<input id="email_name">
+			<br>
+			<label>Ваша должность или профессия:</label><br>
+			<input id="email_job">
+			<br>
+			<label>Ваши контакты (не обязательно):</label><br>
+			<textarea id="email_contacts"></textarea><br>
+			<a class="btn" href="javascript://" onclick="tryToSend();">Отправить подпись</a> <a class="btn" href="javascript://" onclick="closeForm();">Закрыть форму</a>
+		</div>
+	</div>
 	<div class="block black_img_block">
 		<div class="header">
 			 Открытое письмо в поддержку фигурантов дела "Сети" от иллюстратор_ок и дизайнер_ок 
@@ -42,7 +99,7 @@
 				<br>
 				Мы требуем немедленной отмены приговоров по делу «Сети»! И хотим привлечь внимание к происходящему и дать слово фигурантам о пережитых пытках, как мы умеем – через иллюстрации. <br>
 				<br>
-				<b>Если вы хотите присоединиться со своей иллюстрацией или подписать это письмо, присылайте файлы и пишите своё имя и профессию на почту <a href="mailto://delosetiilustration@protonmail.com">delosetiilustration@protonmail.com</a>. Иллюстрации в виде открыток мы отправим ребятам.</b><br>
+				<b>Если вы хотите присоединиться со своей иллюстрацией или подписать это письмо, присылайте файлы и пишите своё имя и профессию на почту <a href="mailto://delosetiilustration@protonmail.com">delosetiilustration@protonmail.com</a> или через форму, нажав <a href="javascript://" onclick="openForm();">сюда</a>. Иллюстрации в виде открыток мы отправим ребятам.</b><br>
 				<br>
 				*В свете новой информации некоторые фигуранты дела "Сети" связываются с убийством Артема Дорофеева и Екатерины Левченко. Расследование по нему проходит отдельно, и мы надеемся на то, что убийцы будут найдены и осуждены.
 			</p>
