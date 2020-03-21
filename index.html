@@ -16,8 +16,53 @@
 	      emailjs.init("user_Jk5L4pvZ5jzBxEWrU4mIi");
 	   })();
 	</script>
-
 	<script>
+		window.onload=function(){
+			els = document.querySelectorAll('.img_block, .author_name, .text_block');
+			elsOT = [];
+			for(var i=0;i<els.length;i++){
+				elsOT.push(els[i].offsetTop);
+				els[i].classList.add("notloaded");
+			}
+			for(var i=0;i<els.length;i++){
+				els[i].style.transform="translateY(-40px)";
+				els[i].style.transition="all 0.8s";
+			}
+			window.onscroll=function(){
+				for(var i=0;i<elsOT.length;i++){
+					if((window.pageYOffset+(window.innerHeight*0.9))>elsOT[0]){
+					
+						console.log((els.length-elsOT.length));						
+						els[(els.length-elsOT.length)].classList.remove("notloaded");
+						els[(els.length-elsOT.length)].style.transform="translateY(0px)";
+						elsOT.shift();
+					}
+				}
+			}
+		}
+
+		function getElementY(query) {
+			return window.pageYOffset + document.querySelector(query).getBoundingClientRect().top
+		}
+		function doScrolling(element, duration) {
+			var startingY = window.pageYOffset
+			var elementY = getElementY(element)
+			var targetY = document.body.scrollHeight - elementY < window.innerHeight ? document.body.scrollHeight - window.innerHeight : elementY
+			var diff = targetY - startingY
+			var easing = function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 }
+			var start
+			if (!diff) return
+			window.requestAnimationFrame(function step(timestamp) {
+				if (!start) start = timestamp
+				var time = timestamp - start
+				var percent = Math.min(time / duration, 1)
+				percent = easing(percent)
+				window.scrollTo(0, startingY + diff * percent)
+				if (time < duration) {
+					window.requestAnimationFrame(step)
+				}
+			})
+		}
 		function sendEmail(name, job, contacts){
 			var template_params = {
 				   "name": name,
@@ -87,11 +132,12 @@
 				Подробнее о деле можно узнать на сайте <a href="https://rupression.com/">rupression.com</a><br>
 				<br>
 				А мы хотим выразить свою солидарность с теми кто подвергается жестоким репрессиям за свои идеи этим иллюстрированным письмом!<br>
-				<a href="#down" class="arrow"><svg class="t-cover__arrow-svg" style="fill:#ffffff;" x="0px" y="0px" width="38.417px" height="18.592px" viewBox="0 0 38.417 18.592"><g><path d="M19.208,18.592c-0.241,0-0.483-0.087-0.673-0.261L0.327,1.74c-0.408-0.372-0.438-1.004-0.066-1.413c0.372-0.409,1.004-0.439,1.413-0.066L19.208,16.24L36.743,0.261c0.411-0.372,1.042-0.342,1.413,0.066c0.372,0.408,0.343,1.041-0.065,1.413L19.881,18.332C19.691,18.505,19.449,18.592,19.208,18.592z"></path></g></svg></a>
+				<a href="javascript://" onclick="doScrolling.bind(null, '#arrowlnk', 1000)()" class="arrow"><svg class="t-cover__arrow-svg" style="fill:#ffffff;" x="0px" y="0px" width="38.417px" height="18.592px" viewBox="0 0 38.417 18.592"><g><path d="M19.208,18.592c-0.241,0-0.483-0.087-0.673-0.261L0.327,1.74c-0.408-0.372-0.438-1.004-0.066-1.413c0.372-0.409,1.004-0.439,1.413-0.066L19.208,16.24L36.743,0.261c0.411-0.372,1.042-0.342,1.413,0.066c0.372,0.408,0.343,1.041-0.065,1.413L19.881,18.332C19.691,18.505,19.449,18.592,19.208,18.592z"></path></g></svg></a>
 			</p>
 			
 		</div>
 	</div>
+	<a id="arrowlnk"></a>
 	<div class="block gray_block">
 		<div>
 			<p>
